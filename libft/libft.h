@@ -6,7 +6,7 @@
 /*   By: bojamee <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 14:00:45 by bojamee           #+#    #+#             */
-/*   Updated: 2021/08/23 14:00:47 by bojamee          ###   ########.fr       */
+/*   Updated: 2021/08/31 16:05:41 by bojamee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define MAX_INT 2147483647 
 # define MIN_INT -2147483648
 # include <stddef.h>
+
 void		*ft_memset(void *b, int c, size_t len);
 void		ft_bzero(void *s, size_t n);
 void		*ft_memchr(const void *s, int c, size_t n);

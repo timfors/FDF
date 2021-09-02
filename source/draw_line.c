@@ -6,7 +6,7 @@
 /*   By: bojamee <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 15:26:18 by bojamee           #+#    #+#             */
-/*   Updated: 2021/08/29 20:25:19 by bojamee          ###   ########.fr       */
+/*   Updated: 2021/09/02 13:08:34 by bojamee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ static	int	get_y(int x, t_vector start, t_vector end)
 {
 	double	y;
 
-	y = (double)(end.y - start.y) * ((double)x - start.x)
-		/ (end.x - start.x) - start.y;
+	y = (double)(end.y - start.y) *((double)x - start.x)
+		/ (end.x - start.x) + start.y;
 	if (y - (int)y >= 0.5f)
 		return ((int)y + 1);
 	return ((int)y);
 }
 
-void	draw_line(t_vector start, t_vector end, t_data *data, t_camera camera)
+void	draw_line(t_vector start, t_vector end, t_data *data)
 {
 	int		x;
 	int		y;
@@ -36,13 +36,13 @@ void	draw_line(t_vector start, t_vector end, t_data *data, t_camera camera)
 		y = get_y(x, start, end);
 		while (size)
 		{
-			if (y < 0 || y >= data->height || x < 0 || x > data->width)
-				break ;
-			_mlx_pixel_put(data, x, y, 0x00ffffff);
-			if (size % 2 == 1)
-				y = -(y - 1);
-			else
-				y *= -1;
+			if (y >= 0 && y < data->height && x >= 0 && x < data->width)
+			{
+				_mlx_pixel_put(data, x, y + size - (size % 2)
+					- LINE_SIZE / 2, LINE_COLOR);
+				_mlx_pixel_put(data, x + size - (size % 2)
+					- LINE_SIZE / 2, y, LINE_COLOR);
+			}
 			size--;
 		}
 		if (x > (int)end.x)

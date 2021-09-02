@@ -1,9 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bojamee <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/02 13:10:31 by bojamee           #+#    #+#             */
+/*   Updated: 2021/09/02 13:12:07 by bojamee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/fdf.h"
 
 void	_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
-	dst =data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+
+	dst = data->addr + (y * data->line_length + x
+			* (data->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 }
 
@@ -22,31 +36,56 @@ void	fill_image(t_data *data, int color)
 	}
 }
 
-t_data	data_create(void *mlx, int width, int height, int color)
+t_data	*data_create(void *mlx, int width, int height)
 {
-	t_data	img;
+	t_data	*img;
 
-	img.img = mlx_new_image(mlx, width, height);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.width,
-			&img.endian);
-	img.height = height;
-	foll_image(&data, color);
-	return (image);
+	img = ft_calloc(sizeof(t_data), 1);
+	if (!img)
+		print_err("No memory!\n");
+	img->img = mlx_new_image(mlx, width, height);
+	if (!img->img)
+		print_err("No memory!\n");
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
+			&img->line_length, &img->endian);
+	img->width = width;
+	img->height = height;
+	fill_image(img, COLOR_BACKGROUND);
+	ft_putstr_fd("IMAGE INITED!\n", 1);
+	return (img);
 }
 
-int main(void)
+void	print_err(char *str)
 {
-	void	*mlx;
-	t_data	img;
-	void	*mlx_window;
-	t_point	p1;
-	t_point	p2;
+	if (errno == 0)
+		ft_putstr_fd(str, 1);
+	else
+		perror(str);
+	exit(1);
+}
 
-	p1 = *point_create(0, 0, 0);
+int	main(int argc, char **argv)
+{
+	t_vars	vars;
+	int		fd;
 
-	mlx = mlx_init();
-	img = data_create(mlx, S_WIDTH, S_HEIGHT, COLOR_BACKGROUND);
-	mlx_window = mlx_new_window(mlx, S_WIDTH, S_HEIGHT, "Hi");
-	mlx_put_image_to_window(mlx, mlx_window, img.img, 0, 0);
-	mlx_loop(mlx);
+	errno = 0;
+	if (argc != 2)
+		print_err("Usage: ./fdf [FILE]\n");
+	fd = open(argv[1], O_RDONLY);
+	if (fd <= 0)
+		print_err("File open error!\n");
+	vars.object = parse(fd);
+	close(fd);
+	vars.controls = ft_calloc(sizeof(t_controls), 1);
+	if (!vars.controls)
+		print_err("No memory!\n");
+	vars.mlx = mlx_init();
+	vars.data = data_create(vars.mlx, S_WIDTH, S_HEIGHT);
+	vars.mlx_window = mlx_new_window(vars.mlx, S_WIDTH, S_HEIGHT, "FDF");
+	mlx_hook(vars.mlx_window, 2, 0, key_pressed, &vars);
+	mlx_hook(vars.mlx_window, 3, 0, key_released, &vars);
+	mlx_hook(vars.mlx_window, 17, 0, close_prog, &vars);
+	mlx_loop_hook(vars.mlx, render_next_frame, &vars);
+	mlx_loop(vars.mlx);
 }

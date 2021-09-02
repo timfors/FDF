@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   vector.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bojamee <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/30 15:04:35 by bojamee           #+#    #+#             */
-/*   Updated: 2021/08/31 18:33:23 by bojamee          ###   ########.fr       */
+/*   Created: 2021/08/31 16:44:33 by bojamee           #+#    #+#             */
+/*   Updated: 2021/09/02 13:17:05 by bojamee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/fdf.h"
 
-void	ft_lstadd_front(t_list **list, t_list *new)
+t_vector	vector_create(int x, int y, int z)
 {
-	if (!new)
-		return ;
-	new->next = *list;
-	*list = new;
+	t_vector	res;
+
+	res.x = x;
+	res.y = y;
+	res.z = z;
+	return (res);
 }
