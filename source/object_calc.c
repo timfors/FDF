@@ -6,7 +6,7 @@
 /*   By: bojamee <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 20:35:12 by bojamee           #+#    #+#             */
-/*   Updated: 2021/09/02 13:14:02 by bojamee          ###   ########.fr       */
+/*   Updated: 2021/09/07 17:39:19 by bojamee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,35 @@ void	apply_pos(t_object object, t_point *point)
 
 void	apply_rotation(t_object object, t_point *point)
 {
+	t_vector	start;
+
+	start = point->pos;
 	point->pos.x = point->pos.x;
-	point->pos.y = point->pos.y * cos(radian(object.rot.x))
-		+ point->pos.z * sin(radian(object.rot.x));
-	point->pos.z = point->pos.z * cos(radian(object.rot.x))
-		- point->pos.y * sin(radian(object.rot.x));
-	point->pos.x = point->pos.x * cos(radian(object.rot.y))
-		+ point->pos.z * sin(radian(object.rot.y));
-	point->pos.y = point->pos.y;
-	point->pos.z = point->pos.z * cos(radian(object.rot.y))
-		- point->pos.x * sin(radian(object.rot.y));
-	point->pos.x = point->pos.x * cos(radian(object.rot.z))
-		- point->pos.y * sin(radian(object.rot.z));
-	point->pos.y = point->pos.y * cos(radian(object.rot.z))
-		+ point->pos.x * sin(radian(object.rot.z));
+	point->pos.y = start.y * cos(radian(object.rot.x))
+		+ start.z * sin(radian(object.rot.x));
+	point->pos.z = start.z * cos(radian(object.rot.x))
+		- start.y * sin(radian(object.rot.x));
+	start = point->pos;
+	point->pos.x = start.x * cos(radian(object.rot.y))
+		+ start.z * sin(radian(object.rot.y));
+	point->pos.y = start.y;
+	point->pos.z = start.z * cos(radian(object.rot.y))
+		- start.x * sin(radian(object.rot.y));
+	start = point->pos;
+	point->pos.x = start.x * cos(radian(object.rot.z))
+		- start.y * sin(radian(object.rot.z));
+	point->pos.y = start.y * cos(radian(object.rot.z))
+		+ start.x * sin(radian(object.rot.z));
+	point->pos.z = start.z;
 }
 
 void	object_calc_point(t_object *object, t_point *point, int is_iso)
 {
 	point->pos = point->local_pos;
-	apply_rotation(*object, point);
+	apply_scale(*object, point);
 	if (is_iso)
 		apply_iso(point);
-	apply_scale(*object, point);
+	apply_rotation(*object, point);
 	apply_pos(*object, point);
 }
 

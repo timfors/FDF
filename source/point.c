@@ -6,7 +6,7 @@
 /*   By: bojamee <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 16:30:09 by bojamee           #+#    #+#             */
-/*   Updated: 2021/09/02 13:14:59 by bojamee          ###   ########.fr       */
+/*   Updated: 2021/09/07 17:37:46 by bojamee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	point_connect(t_object object, t_point	*point)
 {
 	t_list	*connection;
 
-	connection = object_get(object, point->col - 1, point->line);
+	connection = object_get(object, point->col, point->line - 1);
 	if (connection)
 	{
 		connection = ft_lstnew(connection->content);
@@ -37,7 +37,7 @@ void	point_connect(t_object object, t_point	*point)
 			print_err("No memory!\n");
 		ft_lstadd_front(&point->connected, connection);
 	}
-	connection = object_get(object, point->col, point->line - 1);
+	connection = object_get(object, point->col - 1, point->line);
 	if (connection)
 	{
 		connection = ft_lstnew(connection->content);

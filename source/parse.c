@@ -6,7 +6,7 @@
 /*   By: bojamee <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/30 17:40:20 by bojamee           #+#    #+#             */
-/*   Updated: 2021/09/02 13:14:39 by bojamee          ###   ########.fr       */
+/*   Updated: 2021/09/07 17:29:02 by bojamee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	parse_splitted(t_object *object, char **params, int line)
 	while (params[col])
 	{
 		num = ft_atoi(params[col]);
-		point_pos = vector_create(col, num, -line);
+		point_pos = vector_create(col, -num, -line);
 		point = point_create(point_pos, col, line);
 		if (!point)
 			print_err("No memory!\n");

@@ -6,7 +6,7 @@
 /*   By: bojamee <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 20:24:13 by bojamee           #+#    #+#             */
-/*   Updated: 2021/09/02 13:14:26 by bojamee          ###   ########.fr       */
+/*   Updated: 2021/09/07 18:57:05 by bojamee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	apply_iso(t_point *point)
 {
 	t_vector	res;
 
-	res.z = 0;
 	res.x = (point->pos.x - point->pos.y) * cos(radian(30));
 	res.y = -point->pos.z + (point->pos.x + point->pos.y) * sin(radian(30));
+	res.z = point->pos.z;
 	point->pos = res;
 }
 
@@ -37,6 +37,7 @@ void	object_draw(t_object points, t_data *data)
 	t_list	*p1;
 	t_list	*connected;
 
+	(void) data;
 	p1 = points.points;
 	while (p1)
 	{
