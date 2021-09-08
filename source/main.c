@@ -6,7 +6,7 @@
 /*   By: bojamee <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:10:31 by bojamee           #+#    #+#             */
-/*   Updated: 2021/09/02 13:12:07 by bojamee          ###   ########.fr       */
+/*   Updated: 2021/09/08 18:58:22 by bojamee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,9 @@ int	main(int argc, char **argv)
 	mlx_hook(vars.mlx_window, 2, 0, key_pressed, &vars);
 	mlx_hook(vars.mlx_window, 3, 0, key_released, &vars);
 	mlx_hook(vars.mlx_window, 17, 0, close_prog, &vars);
+	object_calc_points_pos(vars.object, vars.data->view_mode == ISO_MODE);
+	object_draw(*vars.object, vars.data);
+	mlx_put_image_to_window(vars.mlx, vars.mlx_window, vars.data->img, 0, 0);
 	mlx_loop_hook(vars.mlx, render_next_frame, &vars);
 	mlx_loop(vars.mlx);
 }

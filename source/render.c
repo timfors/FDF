@@ -6,7 +6,7 @@
 /*   By: bojamee <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 17:22:57 by bojamee           #+#    #+#             */
-/*   Updated: 2021/09/02 13:16:55 by bojamee          ###   ########.fr       */
+/*   Updated: 2021/09/08 19:56:43 by bojamee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,26 +54,28 @@ int	check_scale(t_controls controls, t_object *obj)
 	return (0);
 }
 
-void	check_controls(t_controls controls, t_object *obj, int is_iso)
+int	check_controls(t_controls controls, t_object *obj)
 {
 	if (check_rotation(controls, obj)
 		| check_move(controls, obj)
 		| check_scale(controls, obj))
-		object_calc_points_pos(obj, is_iso);
+		return (1);
+	return (0);
 }
 
 int	render_next_frame(t_vars *vars)
 {
 	static int	view_mode = -1;
 
-	fill_image(vars->data, COLOR_BACKGROUND);
-	if (view_mode != vars->data->view_mode)
+	if (check_controls(*vars->controls, vars->object)
+		|| view_mode != vars->data->view_mode)
 	{
+		fill_image(vars->data, COLOR_BACKGROUND);
 		object_calc_points_pos(vars->object, vars->data->view_mode == ISO_MODE);
 		view_mode = vars->data->view_mode;
+		object_draw(*vars->object, vars->data);
+		mlx_put_image_to_window(vars->mlx, vars->mlx_window,
+			vars->data->img, 0, 0);
 	}
-	check_controls(*vars->controls, vars->object, view_mode == ISO_MODE);
-	object_draw(*vars->object, vars->data);
-	mlx_put_image_to_window(vars->mlx, vars->mlx_window, vars->data->img, 0, 0);
 	return (1);
 }

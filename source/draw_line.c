@@ -6,7 +6,7 @@
 /*   By: bojamee <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 15:26:18 by bojamee           #+#    #+#             */
-/*   Updated: 2021/09/08 18:40:32 by bojamee          ###   ########.fr       */
+/*   Updated: 2021/09/08 20:23:43 by bojamee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ static int	draw_point(int x, int y, t_data *data)
 	return (1);
 }
 
-static void	calc_step(t_vector delta, t_vector direction, t_vector *current, int *act)
+static void	calc_step(t_vector delta, t_vector direction,
+		t_vector *current, int *act)
 {
 	act[1] = act[0] * 2;
-	if (act[1] >= delta.y)
+	if (act[1] >= -delta.y)
 	{
-		act[0] += delta.y;
+		act[0] -= delta.y;
 		current->x += direction.x;
 	}
 	if (act[1] <= delta.x)
@@ -58,16 +59,17 @@ void	draw_line(t_vector start, t_vector end, t_data *data)
 	int			act[2];
 
 	delta.x = abs((int)end.x - (int)start.x);
-	delta.y = -abs((int)end.y - (int)start.y);
+	delta.y = abs((int)end.y - (int)start.y);
 	direction = vector_create(1, 1, 0);
 	if (end.x < start.x)
 		direction.x *= -1;
 	if (end.y < start.y)
 		direction.y *= -1;
-	current = start;
-	act[0] = delta.x + delta.y;
+	current.x = (int)start.x;
+	current.y = (int)start.y;
+	act[0] = delta.x - delta.y;
 	while ((int)current.x != (int)end.x
-		||	(int)current.y != (int)end.y)
+		|| (int)current.y != (int)end.y)
 	{
 		draw_point(current.x, current.y, data);
 		calc_step(delta, direction, &current, act);

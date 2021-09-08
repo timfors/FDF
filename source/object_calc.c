@@ -6,7 +6,7 @@
 /*   By: bojamee <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 20:35:12 by bojamee           #+#    #+#             */
-/*   Updated: 2021/09/07 17:39:19 by bojamee          ###   ########.fr       */
+/*   Updated: 2021/09/08 19:51:04 by bojamee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ void	apply_rotation(t_object object, t_point *point)
 void	object_calc_point(t_object *object, t_point *point, int is_iso)
 {
 	point->pos = point->local_pos;
-	apply_scale(*object, point);
 	if (is_iso)
 		apply_iso(point);
 	apply_rotation(*object, point);
+	apply_scale(*object, point);
 	apply_pos(*object, point);
 }
 
