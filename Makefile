@@ -7,7 +7,7 @@ HEADER				= fdf.h key_codes.h
 EXTRA_HEADERS		= get_next_line.h mlx.h mlx_int.h mlx_new_window.h libft.h
 
 SRC_DIR				= source/
-SRC 				= main.c object.c object_draw.c object_calc.c draw_line.c point.c parse.c vector.c render.c key_press.c key_release.c close.c 
+SRC 				= main.c object.c object_draw.c object_calc.c draw_line.c point.c parse.c vector.c render.c key_press.c key_release.c close.c utils.c
 OBJ_DIR				= objects/
 OBJ 				= $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 

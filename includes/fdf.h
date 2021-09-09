@@ -6,7 +6,7 @@
 /*   By: bojamee <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:19:07 by bojamee           #+#    #+#             */
-/*   Updated: 2021/09/07 16:16:35 by bojamee          ###   ########.fr       */
+/*   Updated: 2021/09/09 13:51:46 by bojamee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define COLOR_BACKGROUND 0x00000000
 # define ROT_SPEED 2
 # define MOVE_SPEED 5
-# define SCALE_SPEED 0.5f
+# define SCALE_SPEED 1.1f
 # define ISO_MODE 0
 # define PARAL_MODE 1
 
@@ -122,6 +122,11 @@ int				render_next_frame(t_vars *vars);
 
 t_vector		vector_to_screen(t_vector pos);
 double			radian(double angle);
+
+int				get_y(int x, t_vector start, t_vector end);
+int				get_x(int y, t_vector start, t_vector end);
+int				optimize_point_x(t_vector *start, t_vector *end, t_data data);
+int				optimize_point_y(t_vector *start, t_vector *end, t_data data);
 
 void			print_err(char *str);
 

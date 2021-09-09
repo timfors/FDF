@@ -6,7 +6,7 @@
 /*   By: bojamee <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 15:26:18 by bojamee           #+#    #+#             */
-/*   Updated: 2021/09/08 20:23:43 by bojamee          ###   ########.fr       */
+/*   Updated: 2021/09/09 13:58:29 by bojamee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,21 @@ static void	calc_step(t_vector delta, t_vector direction,
 	}
 }
 
+int	optimize_pos(t_vector *start, t_vector *end, t_data data)
+{
+	if (start->x >= 0 && start->x < data.width
+		&& start->y >= 0 && start->y < data.height
+		&& end->x >= 0 && end->x < data.width
+		&& end->y >= 0 && end->y < data.height)
+		return (1);
+	if ((optimize_point_x(start, end, data)
+			& optimize_point_y(start, end, data))
+		&& (optimize_point_x(end, start, data)
+			& optimize_point_y(end, start, data)))
+		return (1);
+	return (0);
+}
+
 void	draw_line(t_vector start, t_vector end, t_data *data)
 {
 	t_vector	delta;
@@ -58,6 +73,8 @@ void	draw_line(t_vector start, t_vector end, t_data *data)
 	t_vector	current;
 	int			act[2];
 
+	if (!optimize_pos(&start, &end, *data))
+		return ;
 	delta.x = abs((int)end.x - (int)start.x);
 	delta.y = abs((int)end.y - (int)start.y);
 	direction = vector_create(1, 1, 0);

@@ -6,7 +6,7 @@
 /*   By: bojamee <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 17:22:57 by bojamee           #+#    #+#             */
-/*   Updated: 2021/09/08 19:56:43 by bojamee          ###   ########.fr       */
+/*   Updated: 2021/09/09 13:57:35 by bojamee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,18 @@ int	check_scale(t_controls controls, t_object *obj)
 {
 	if (controls.scale.x || controls.scale.y || controls.scale.z)
 	{
-		obj->scale.x += controls.scale.x * SCALE_SPEED;
-		if (obj->scale.x < 0)
-			obj->scale.x = 0;
-		obj->scale.y += controls.scale.y * SCALE_SPEED;
-		if (obj->scale.y < 0)
-			obj->scale.y = 0;
-		obj->scale.z += controls.scale.z * SCALE_SPEED;
-		if (obj->scale.z < 0)
-			obj->scale.z = 0;
+		if (controls.scale.x > 0)
+			obj->scale.x *= SCALE_SPEED;
+		else
+			obj->scale.x /= SCALE_SPEED;
+		if (controls.scale.y > 0)
+			obj->scale.y *= SCALE_SPEED;
+		else
+			obj->scale.y /= SCALE_SPEED;
+		if (controls.scale.z > 0)
+			obj->scale.z *= SCALE_SPEED;
+		else
+			obj->scale.z /= SCALE_SPEED;
 		return (1);
 	}
 	return (0);
